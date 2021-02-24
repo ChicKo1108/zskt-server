@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 
 const sequelize = new Sequelize("zskt", "root", "root", {
   host: "localhost",
@@ -21,6 +21,4 @@ const sequelize = new Sequelize("zskt", "root", "root", {
   timezone: "+08:00", //东八时区
 });
 
-module.exports = {
-  sequelize,
-};
+module.exports = { sequelize, DataTypes };
