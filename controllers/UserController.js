@@ -1,4 +1,4 @@
-const UserModel = require("../models/User");
+const UserModel = require("../models/UserModel");
 
 class UserController {
   static async createUser(ctx) {

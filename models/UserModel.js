@@ -1,4 +1,4 @@
-const User = require("../schemas/User");
+const User = require("../schemas/UserSchema");
 
 // 检查表结构，创建表
 User.sync({ alter: true });
@@ -21,12 +21,12 @@ class UserModel {
 
   /**
    * 查找用户数据
-   * @param {Number} id 
+   * @param {Number} id
    */
   static async findUserById(id) {
     return await User.findOne({
       where: {
-        id,
+        id: id,
       },
     });
   }
