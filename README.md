@@ -649,6 +649,11 @@ await User.sum('age', { where: { age: { [Op.gt]: 5 } } }); // 50
     type: DataTypes.STRING,
     allowNull: false,
   },
+  sno: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    comment: "学号，老师没有此信息"
+  }
 });
 ```
 
@@ -711,6 +716,124 @@ PunchRecord = sequelize.define("PunchRecord", {
     type: DataTypes.INTEGER,
     allowNull: false,
   }
+});
+```
+
+#### `Message` 私聊消息表
+
+```js
+Message = sequelize.define("Message", {
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: true,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    fromUserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    toUserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    isRead: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
+    revoke: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        comment: "撤回"
+    }
+});
+
+```
+
+#### `ClassMessage` 班级消息表
+
+```js
+ClassMessage = sequelize.define("ClassMessage", {
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: true,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    ClassId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    fromUserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    revoke: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        comment: "撤回"
+    }
+});
+
+```
+
+#### `ClassMessageTime` 班级消息时刻表
+
+```js
+ClassMessgaeTime = sequelize.define("ClassMessageTime", {
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: true,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    classId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    lastViewTime: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: new Date(),
+    }
+});
+```
+
+#### `Apply` 申请表
+
+```js
+Apply = sequelize.define("Apply", {
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: true,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    classId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    studentId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    isPass: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "LOADING",
+        comment: "LOADING | PASS | REJECT"
+    }
 });
 ```
 

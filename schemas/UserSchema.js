@@ -29,4 +29,9 @@ module.exports = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  sno: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    comment: "学号，老师没有此信息"
+  }
 });
