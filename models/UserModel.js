@@ -30,6 +30,18 @@ class UserModel {
       },
     });
   }
+
+  /**
+   * 根据手机号码查询用户
+   * @param {String} phone 手机号
+   */
+  static async findUserByPhone(phone) {
+    return await User.findOne({
+      where: {
+        phone: phone,
+      },
+    });
+  }
 }
 
 module.exports = UserModel;

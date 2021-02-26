@@ -616,9 +616,9 @@ await User.sum('age', { where: { age: { [Op.gt]: 5 } } }); // 50
 
 
 
-### Model 模型
+### Schema 表结构
 
-#### User 用户表
+#### `User` 用户表
 
 ```js
  User = sequelize.define("User", {
@@ -657,7 +657,51 @@ await User.sum('age', { where: { age: { [Op.gt]: 5 } } }); // 50
 });
 ```
 
-#### Punch 考勤表
+#### `Class` 班级表
+
+```js
+Class = sequelize.define("Class", {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  className: {
+    type: DataTypes.STRING(60),
+    allowNull: false,
+  },
+  ownerId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  }
+})
+```
+
+#### `ClassMember` 班级成员表
+
+```js
+ClassMember = sequelize.define("ClassMember", {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  studentId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  classId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+});
+```
+
+
+
+#### `Punch` 考勤表
 
 ```js
 Punch = sequelize.define("Punch", {
@@ -697,7 +741,7 @@ Punch = sequelize.define("Punch", {
 });
 ```
 
-#### Punch Record 考勤记录表
+#### `PunchRecord` 考勤记录表
 
 ```js
 PunchRecord = sequelize.define("PunchRecord", {
@@ -839,3 +883,18 @@ Apply = sequelize.define("Apply", {
 
 
 
+### Model 模型（操作数据库）
+
+#### `UserModel`
+
+- `createUser`创建用户
+- `findUserById` 根据Id查找用户
+- `findUserByPhone` 根据手机号查询
+
+
+
+### Controller 控制器（逻辑控制）
+
+#### `UserController`
+
+- `createUser` 创建用户
