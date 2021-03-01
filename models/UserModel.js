@@ -9,13 +9,14 @@ class UserModel {
    * @param {Object} data
    */
   static async createUser(data) {
-    const { realName, password, phone, avatar, role } = data;
+    const { realName, password, phone, avatar, role, sno } = data;
     return await User.create({
       realName,
       password,
       phone,
       avatar,
       role,
+      sno,
     });
   }
 

@@ -1,4 +1,5 @@
 const UserModel = require("../models/UserModel");
+const commonUtils = require("../utils/commonUtils");
 
 class UserController {
   /**
@@ -8,60 +9,70 @@ class UserController {
   static async createUser(ctx) {
     // 接受客户端数据
     const req = ctx.request.body;
-    if (req.realName && req.password && req.phone && req.role) {
-      try {
-        // 创建用户模型
-        const result = await UserModel.createUser(req);
-        // 返回用户信息
-        const data = await UserModel.findUserById(result.id);
+    const { realName, password, phone, role } = req;
+    commonUtils.checkArguments(ctx, realName, password, phone, role);
+    try {
+      // 手机号不能重复
+      const phoneHasRegisted = await UserModel.findUserByPhone(phone);
+      if (phoneHasRegisted) {
         ctx.response.status = 200;
         ctx.body = {
-          code: 200,
-          msg: "用户创建成功",
-          data,
+          msg: "PHONE REGISTED"
         };
-      } catch (err) {
-        ctx.response.status = 412;
-        ctx.body = {
-          code: 200,
-          msg: "用户创建失败",
-          data: err,
-        };
+        return;
       }
-    } else {
-      ctx.response.status = 416;
+      // 创建用户模型
+      const result = await UserModel.createUser(req);
+      // 返回用户信息
+      const user = await UserModel.findUserById(result.id);
+      // 注册成功后自动登录，记录session
+      ctx.session.logged = true;
+      ctx.session.userId = user.id;
+      ctx.response.status = 200;
       ctx.body = {
-        code: 200,
-        msg: "参数不全",
+        msg: "OK",
+        data: user.id,
+      };
+    } catch (err) {
+      ctx.response.status = 200;
+      ctx.body = {
+        msg: "FAIL",
       };
     }
   }
 
+  /**
+   * 登录
+   * @param {*} ctx 
+   */
   static async login(ctx) {
-    const { phone, password } = ctx.request.query;
-    // TODO: 参数检查
+    const { phone, password } = ctx.request.body;
+    commonUtils.checkArguments(ctx, phone, password);
     try {
       const user = await UserModel.findUserByPhone(phone);
       if (password === user.password) {
+        // 登录成功后记录session
+        ctx.session.logged = true;
+        ctx.session.userId = user.id;
+
         ctx.response.status = 200;
         ctx.body = {
-          code: 200,
-          msg: "登录成功",
+          msg: "OK",
           data: user.id,
         };
       } else {
-        ctx.response.status = 406;
+        ctx.response.status = 200;
         ctx.body = {
-          code: 200,
-          msg: "用户名或密码不正确",
+          msg: "INVALID_INFO",
         };
       }
     } catch (error) {
+      console.error(error);
       ctx.response.status = 412;
-        ctx.body = {
-          code: 200,
-          msg: "用户名或密码不正确"
-        };
+      ctx.body = {
+        code: 200,
+        msg: "FAIL"
+      };
     }
   }
 }

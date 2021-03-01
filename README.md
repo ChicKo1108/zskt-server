@@ -893,8 +893,47 @@ Apply = sequelize.define("Apply", {
 
 
 
-### Controller 控制器（逻辑控制）
+### API+Controller 控制器（逻辑控制）
 
 #### `UserController`
 
 - `createUser` 创建用户
+
+  - `method`：POST
+
+  - `param`：
+
+    - ```js
+      	realName,	* 
+          password,	*
+          phone,		*
+          avatar,
+          role,		*
+          sno,
+      ```
+
+  - `返回值`：
+
+    - ```js
+      {
+          msg: "ok" | "PHONE_REGISTED" | "FAIL",
+          data: userId
+      }
+      ```
+
+#### `HomeController`
+
+- `getMainPage` 获取首页数据
+
+  - `method`：GET
+
+  - `param`： null
+
+  - `返回值`：
+
+    - ```js
+      
+      ```
+
+    - 
+

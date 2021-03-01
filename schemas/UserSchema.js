@@ -20,6 +20,7 @@ module.exports = sequelize.define("User", {
   phone: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   avatar: {
     type: DataTypes.STRING,
