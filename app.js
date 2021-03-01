@@ -6,7 +6,10 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const koaSession = require('koa-session');
+
+// routes
 const userRoute = require('./routes/user');
+const classRoute = require('./routes/class');
 
 const session_signed_key = ["zskt signed"];  // 这个是配合signed属性的签名key
 const session_config = {
@@ -41,10 +44,10 @@ app.use(views(__dirname + '/views', {
 app.use(session);
 
 app.use(async (ctx, next) => {
-  if(ctx.path === '/api/user/login') {
+  if (ctx.path === '/api/user/login' || ctx.path === '/api/user/create') {
     await next();
   } else {
-    if(!ctx.session.logged) {
+    if (!ctx.session.logged) {
       ctx.status = 403;
       ctx.body = "NOT_LOGIN";
     } else {
@@ -63,6 +66,7 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(userRoute.routes(), userRoute.allowedMethods())
+app.use(classRoute.routes(), classRoute.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

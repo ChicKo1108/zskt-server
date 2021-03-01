@@ -9,8 +9,8 @@ class ClassModel {
         })
     }
 
-    static async createClass(className, ownerId) {
-        return await Class.create({ className, ownerId });
+    static async createClass(className, college, school, canSearch, ownerId) {
+        return await Class.create({ className, ownerId, college, school, canSearch });
     }
 }
 

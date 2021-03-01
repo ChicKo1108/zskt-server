@@ -75,6 +75,17 @@ class UserController {
       };
     }
   }
+
+
+  static isLogin(ctx) {
+    if(ctx.session.logged) {
+      ctx.status = 200;
+      ctx.data = "OK";
+    } else {
+      ctx.status = 500;
+      ctx.data = "NOT_LOGIN";
+    }
+  }
 }
 
 module.exports = UserController;

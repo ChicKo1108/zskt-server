@@ -4,10 +4,11 @@ const commonUtils = require("../utils/commonUtils");
 class ClassController {
     static async createClass(ctx) {
         const req = ctx.request.body;
-        const { className } = req;
+        const { className, college, school, canSearch } = req;
         commonUtils.checkArguments(ctx, className);
         try {
-            const result = ClassModel.createClass(className, id);
+            const { userId } = ctx.session;
+            const result = ClassModel.createClass(className, college, school, canSearch, userId);
             ctx.response.status = 200;
             ctx.body = {
                 msg: "OK",
