@@ -43,6 +43,18 @@ app.use(views(__dirname + '/views', {
 // session
 app.use(session);
 
+// 异常捕获
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (error) {
+    ctx.response.status = 500;
+    ctx.response.body = {
+      msessage: error.msessage,
+    };
+  }
+})
+
 app.use(async (ctx, next) => {
   if (ctx.path === '/api/user/login' || ctx.path === '/api/user/create') {
     await next();

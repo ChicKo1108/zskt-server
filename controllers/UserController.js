@@ -28,6 +28,8 @@ class UserController {
       // 注册成功后自动登录，记录session
       ctx.session.logged = true;
       ctx.session.userId = user.id;
+      ctx.session.role = user.role;
+
       ctx.response.status = 200;
       ctx.body = {
         msg: "OK",
@@ -54,6 +56,7 @@ class UserController {
         // 登录成功后记录session
         ctx.session.logged = true;
         ctx.session.userId = user.id;
+        ctx.session.role = user.role;
 
         ctx.response.status = 200;
         ctx.body = {

@@ -1,7 +1,7 @@
 const sequelize = require("../config/db");
 const { DataTypes } = require("sequelize");
 
-module.exports = sequelize.define("Class", {
+const Class = sequelize.define("Class", {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -28,3 +28,7 @@ module.exports = sequelize.define("Class", {
     defaultValue: false,
   }
 })
+
+Class.sync({ alter: true });
+
+module.exports = Class;

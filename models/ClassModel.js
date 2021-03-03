@@ -1,7 +1,5 @@
 const Class = require("../schemas/ClassSchema");
-
-Class.sync({ alter: true });
-
+const ClassMember = require("../schemas/ClassMemberSchema");
 class ClassModel {
     static async findClassesByOwnerId(id) {
         return await Class.findAll({
@@ -19,9 +17,24 @@ class ClassModel {
         })
     }
 
-    static async findTeacherClasses (ownerId) {
-        return await Class.findAll({
-            where: { ownerId },
+    static async findClassesByStudentId (studentId) {
+        return await ClassMember.findAll({
+            attributes: ['classId'],
+            where: { studentId },
+        })
+    }
+
+    static async findClassMembers (classId) {
+        return await ClassMember.findAll({
+            attributes: ['studentId'],
+            where: { classId },
+        })
+    }
+
+    static async findClassOwner (classId) {
+        return await Class.findOne({
+            attributes: ['ownerId'],
+            where: { classId },
         })
     }
 }
