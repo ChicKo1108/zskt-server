@@ -1,8 +1,4 @@
 const User = require("../schemas/UserSchema");
-
-// 检查表结构，创建表
-User.sync({ alter: true });
-
 class UserModel {
   /**
    * 创建用户
