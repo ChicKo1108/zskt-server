@@ -1,9 +1,13 @@
-const Class = require("../schemas/ClassSchema");
-const ClassMember = require("../schemas/ClassMemberSchema");
+const { Class, User } = require("../schemas/index");
 class ClassModel {
     static async findClassesByOwnerId(id) {
         return await Class.findAll({
-            where: { ownerId: id }
+            where: { ownerId: id },
+            include: {
+                model: User,
+                as: "studentList",
+                attributes: ['id', 'avatar', 'sno', 'realName'],
+            },
         })
     }
 
@@ -14,20 +18,6 @@ class ClassModel {
     static async findById (id) {
         return await Class.findOne({
             where: { id },
-        })
-    }
-
-    static async findClassesByStudentId (studentId) {
-        return await ClassMember.findAll({
-            attributes: ['classId'],
-            where: { studentId },
-        })
-    }
-
-    static async findClassMembers (classId) {
-        return await ClassMember.findAll({
-            attributes: ['studentId'],
-            where: { classId },
         })
     }
 

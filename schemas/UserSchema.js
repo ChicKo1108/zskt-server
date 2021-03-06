@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) =>
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: 'phone',
     },
     avatar: {
       type: DataTypes.STRING,

@@ -67,11 +67,11 @@ class ClassController {
         );
       }
     //   TODO: fix bug
-      for (let i = 0; i < classList.length; i++) {
+      /* for (let i = 0; i < classList.length; i++) {
           const cls = classList[i];
           cls.studentList = (await ClassModel.findClassMembers(cls.id)) || [];
           cls.a = 1;
-      }
+      } */
       if (classList && classList.length) {
         ctx.response.status = 200;
         ctx.body = classList;

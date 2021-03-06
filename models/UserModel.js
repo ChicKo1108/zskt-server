@@ -1,4 +1,4 @@
-const User = require("../schemas/UserSchema");
+const { User } = require("../schemas/index");
 class UserModel {
   /**
    * 创建用户

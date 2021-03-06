@@ -1,14 +1,25 @@
-import sequelize from "../config/db";
+const { sequelize } = require("../config/db");
 
-export const sequelize;
+/**
+ * 引入表结构
+ */
+const User = sequelize.import("./UserSchema");
+const Class = sequelize.import("./ClassSchema");
+const Punch = sequelize.import("./PunchSchema");
 
-export const User = sequelize.import(__dirname + './UserSchema.js');
+/**
+ * 建立表关系
+ */
+// User - Class 多对多
+User.belongsToMany(Class, { through: "ClassMembers", as: "classList" });
+Class.belongsToMany(User, { through: "ClassMembers", as: "studentList" });
+// Class - Punch 一对多
+Class.hasMany(Punch);
+Punch.belongsTo(Class);
 
-export const Class = sequelize.import(__dirname + './ClassSchema.js');
-
-export const ClassMember = sequelize.import(__dirname + './ClassMemberSchema.js');
-
-User.belongsToMany(Class, { through: ClassMember });
-Class.belongsToMany(User, { through: ClassMember });
-
-sequelize.sync({ alter: true });
+module.exports = {
+  sequelize,
+  User,
+  Class,
+  Punch,
+};
