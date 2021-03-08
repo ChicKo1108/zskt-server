@@ -11,6 +11,13 @@ class ClassModel {
         })
     }
 
+    static async findClassIdsByOwnerId (id) {
+        return await Class.findAll({
+            attributes: ['id'],
+            where: { ownerId: id },
+        })
+    }
+
     static async createClass(className, college, school, canSearch, ownerId) {
         return await Class.create({ className, ownerId, college, school, canSearch });
     }

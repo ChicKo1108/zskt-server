@@ -54,9 +54,7 @@ app.use(async (ctx, next) => {
   } catch (error) {
     console.error(error);
     ctx.response.status = 500;
-    ctx.response.body = {
-      msessage: error.msessage,
-    };
+    ctx.body = error.message;
   }
 });
 

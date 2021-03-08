@@ -29,4 +29,10 @@ module.exports = (sequelize, DataTypes) =>
       type: DataTypes.DATE,
       allowNull: false,
     },
+    stop: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      default: false,
+      comment: "提前终止打卡",
+    },
   });
