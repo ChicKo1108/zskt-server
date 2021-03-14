@@ -35,4 +35,10 @@ module.exports = (sequelize, DataTypes) =>
       default: false,
       comment: "提前终止打卡",
     },
+    read: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      default: false,
+      comment: "是否已读",
+    }
   });

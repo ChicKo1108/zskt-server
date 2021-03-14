@@ -39,6 +39,26 @@ class UserModel {
       },
     });
   }
+
+  static async updateInfo(userInfo) {
+    return await User.update(userInfo, {
+      where: { id: userInfo.id },
+    });
+  }
+
+  static async getPasswordById (id) {
+    return await User.findOne({
+      attributes: ['password'],
+      where: { id },
+    })
+  }
+
+  static async updatePassword (password, id) {
+    return await User.update({ password }, {
+      where: { id },
+    })
+  }
+
 }
 
 module.exports = UserModel;

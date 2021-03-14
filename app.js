@@ -71,6 +71,13 @@ app.use(async (ctx, next) => {
   }
 });
 
+// 设置全局变量记录打卡TimerId
+const punchingTimerList = {}
+app.use(async (ctx, next) => {
+  ctx.punchingTimerList = punchingTimerList;
+  await next();
+})
+
 // logger
 app.use(async (ctx, next) => {
   const start = new Date();
@@ -80,10 +87,13 @@ app.use(async (ctx, next) => {
 });
 
 // routes
+const homeRoute = require("./routes/home");
 const userRoute = require("./routes/user");
 const classRoute = require("./routes/class");
 const punchRoute = require("./routes/punch");
 
+
+app.use(homeRoute.routes(), homeRoute.allowedMethods());
 app.use(userRoute.routes(), userRoute.allowedMethods());
 app.use(classRoute.routes(), classRoute.allowedMethods());
 app.use(punchRoute.routes(), punchRoute.allowedMethods());

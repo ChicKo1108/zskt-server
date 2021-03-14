@@ -17,7 +17,7 @@ class UserController {
       if (phoneHasRegisted) {
         ctx.response.status = 200;
         ctx.body = {
-          msg: "PHONE REGISTED"
+          msg: "PHONE REGISTED",
         };
         return;
       }
@@ -45,7 +45,7 @@ class UserController {
 
   /**
    * 登录
-   * @param {*} ctx 
+   * @param {*} ctx
    */
   static async login(ctx) {
     const { phone, password } = ctx.request.body;
@@ -74,19 +74,71 @@ class UserController {
       ctx.response.status = 412;
       ctx.body = {
         code: 200,
-        msg: "FAIL"
+        msg: "FAIL",
       };
     }
   }
 
-
   static isLogin(ctx) {
-    if(ctx.session.logged) {
+    if (ctx.session.logged) {
       ctx.status = 200;
       ctx.data = "OK";
     } else {
       ctx.status = 500;
       ctx.data = "NOT_LOGIN";
+    }
+  }
+
+  static async updateUserInfo(ctx) {
+    const { userInfo } = ctx.request.body;
+    commonUtils.checkArguments(ctx, userInfo);
+    const { userId } = ctx.session;
+    userInfo.id = userId;
+    const result = await UserModel.updateInfo(userInfo);
+    if (result) {
+      ctx.response.status = 200;
+      ctx.body = true;
+    } else {
+      ctx.response.status = 200;
+      ctx.body = false;
+    }
+  }
+
+  static async findMyUserInfo (ctx) {
+    const { userId } = ctx.session;
+    const result = await UserModel.findUserById(userId);
+    ctx.response.status = 200;
+    ctx.body = result;
+  }
+
+  static async checkPassword (ctx) {
+    const { password } = ctx.request.body;
+    const { userId } = ctx.session;
+    const result = await UserModel.getPasswordById(userId);
+    ctx.response.status = 200;
+    if (password !== result.getDataValue('password')) {
+      ctx.body = false;
+    } else {
+      ctx.body = true;
+    }
+  }
+
+  static async updatePassword (ctx) {
+    const { oriPassword, newPassword, checkPassword } = ctx.request.body;
+    commonUtils.checkArguments(ctx, oriPassword, newPassword, checkPassword);
+    ctx.response.status = 200;
+    const { userId } = ctx.session;
+    if (await (await UserModel.getPasswordById(userId)).getDataValue('password') !== oriPassword) {
+      ctx.body = "OriPassword Wrong";
+    } else if (newPassword !== checkPassword) {
+      ctx.body = "password not same";
+    } else {
+      const result = await UserModel.updatePassword(newPassword, userId);
+      if (result) {
+        ctx.body = "OK";
+      } else {
+        ctx.body = "Fail";
+      }
     }
   }
 }

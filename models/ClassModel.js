@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { Class, User } = require("../schemas/index");
 class ClassModel {
     static async findClassesByOwnerId(id) {
@@ -11,13 +12,6 @@ class ClassModel {
         })
     }
 
-    static async findClassIdsByOwnerId (id) {
-        return await Class.findAll({
-            attributes: ['id'],
-            where: { ownerId: id },
-        })
-    }
-
     static async createClass(className, college, school, canSearch, ownerId) {
         return await Class.create({ className, ownerId, college, school, canSearch });
     }
@@ -25,6 +19,19 @@ class ClassModel {
     static async findById (id) {
         return await Class.findOne({
             where: { id },
+            include: {
+                model: User,
+                as: "studentList",
+                attributes: ['id', 'avatar', 'sno', 'realName'],
+            },
+        })
+    }
+
+    static async findByIds (ids) {
+        return await Class.findAll({
+            where: {
+                id: { [Op.in]: ids }
+            }
         })
     }
 

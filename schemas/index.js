@@ -6,6 +6,7 @@ const { sequelize } = require("../config/db");
 const User = sequelize.import("./UserSchema");
 const Class = sequelize.import("./ClassSchema");
 const Punch = sequelize.import("./PunchSchema");
+const PunchResult = sequelize.import("./PunchResultSchema");
 
 /**
  * 建立表关系
@@ -22,4 +23,5 @@ module.exports = {
   User,
   Class,
   Punch,
+  PunchResult,
 };
