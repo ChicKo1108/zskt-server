@@ -11,7 +11,11 @@ class ClassMemberModel {
 
   static async findStuByClassId (classId, studentId) {
     return await ClassMember.findOne({ where: { classId, studentId } });
-  } 
+  }
+  
+  static async getClassListByStudentId (studentId) {
+    return await ClassMember.findAll({ where: { studentId } });
+  }
 }
 
 module.exports = ClassMemberModel;

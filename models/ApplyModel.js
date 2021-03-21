@@ -56,6 +56,10 @@ class ApplyModel {
       }
     );
   }
+
+  static async getApplyListByStudentId (studentId) {
+    return await Apply.findAll({ where: { studentId }, order: [["updatedAt", "DESC"]] });
+  }
 }
 
 module.exports = ApplyModel;

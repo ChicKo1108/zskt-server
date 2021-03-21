@@ -35,11 +35,12 @@ class ClassModel {
   }
 
   static async findByIds(ids) {
-    return await Class.findAll({
+    const classList =  await Class.findAll({
       where: {
         id: { [Op.in]: ids },
       },
     });
+    return await Promise.all(classList.map(async cls => await getStudentList(cls)));
   }
 
   static async findClassOwner(classId) {
