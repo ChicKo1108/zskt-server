@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) =>
-  sequelize.define("Apply", {
+  sequelize.define("ClassMember", {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -15,15 +15,4 @@ module.exports = (sequelize, DataTypes) =>
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    isPass: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      defaultValue: "LOADING",
-      comment: "LOADING | PASS | REJECT",
-    },
-    applyTime: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: new Date(),
-    }
   });

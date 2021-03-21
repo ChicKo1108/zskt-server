@@ -106,7 +106,7 @@ class UserController {
 
   static async findMyUserInfo (ctx) {
     const { userId } = ctx.session;
-    const result = await UserModel.findUserById(userId);
+    const result = await UserModel.findUserByIdWithoutPwd(userId);
     ctx.response.status = 200;
     ctx.body = result;
   }

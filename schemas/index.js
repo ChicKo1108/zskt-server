@@ -7,13 +7,12 @@ const User = sequelize.import("./UserSchema");
 const Class = sequelize.import("./ClassSchema");
 const Punch = sequelize.import("./PunchSchema");
 const PunchResult = sequelize.import("./PunchResultSchema");
+const Apply = sequelize.import("./ApplySchema");
+const ClassMember = sequelize.import("./ClassMemberSchema");
 
 /**
  * 建立表关系
  */
-// User - Class 多对多
-User.belongsToMany(Class, { through: "ClassMembers", as: "classList" });
-Class.belongsToMany(User, { through: "ClassMembers", as: "studentList" });
 // Class - Punch 一对多
 Class.hasMany(Punch);
 Punch.belongsTo(Class);
@@ -24,4 +23,6 @@ module.exports = {
   Class,
   Punch,
   PunchResult,
+  Apply,
+  ClassMember,
 };

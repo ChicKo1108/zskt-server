@@ -59,6 +59,13 @@ class UserModel {
     })
   }
 
+  static async findUserByIdWithoutPwd (id) {
+    return await User.findOne({
+      attributes: { exclude: ['password'] },
+      where: { id },
+    })
+  }
+
 }
 
 module.exports = UserModel;

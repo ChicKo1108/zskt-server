@@ -8,9 +8,6 @@ const logger = require("koa-logger");
 const koaSession = require("koa-session");
 const { sequelize } = require("./schemas/index");
 
-// 检查数据库表
- sequelize.sync({alter: true});
-
 const session_signed_key = ["zskt signed"]; // 这个是配合signed属性的签名key
 const session_config = {
   key: "koa:sess" /**  cookie的key。 (默认是 koa:sess) */,
@@ -57,6 +54,9 @@ app.use(async (ctx, next) => {
     ctx.body = error.message;
   }
 });
+
+// 检查数据库表
+sequelize.sync({alter: true});
 
 app.use(async (ctx, next) => {
   if (ctx.path === "/api/user/login" || ctx.path === "/api/user/create") {
