@@ -63,18 +63,9 @@ class ClassController {
     if (role === "TEACHER") {
       classList = (await ClassModel.findClassesByOwnerId(userId)) || [];
     } else if (role === "STUDENT") {
-      const classIdList =
-        (await ClassModel.findClassesByStudentId(userId)) || [];
-      classList = classIdList.map(
-        async (clsId) => await ClassModel.findById(clsId)
-      );
+      const classIdList = (await ClassMemberModel.getClassListByStudentId(userId)).map(v => v.classId);
+      classList = await ClassModel.findByIds(classIdList);
     }
-    //   TODO: fix bug
-    /* for (let i = 0; i < classList.length; i++) {
-          const cls = classList[i];
-          cls.studentList = (await ClassModel.findClassMembers(cls.id)) || [];
-          cls.a = 1;
-      } */
     if (classList && classList.length) {
       ctx.response.status = 200;
       ctx.body = classList;
@@ -140,8 +131,16 @@ class ClassController {
     } else {
       // 更新申请表状态;
       if (isPass === 'true') { // 如果通过则将学生加入到对应班级
-        const result = await Promise.all([ApplyModel.updateApplyPass(studentId, classId, true), ClassMemberModel.addClassMember(classId, studentId)]);
-        ctx.body = result[0] && result[1].id;
+        // 1. 先验证班级是否有学生
+        const stuVo = ClassMemberModel.findStuByClassId(classId, studentId);
+        if(stuVo.id) {
+          // 已经存在该学生
+          ctx.body = "ALREADY_JOINED_CLASS";
+        } else {
+          // 将学生加入到班级内
+          const result = await Promise.all([ApplyModel.updateApplyPass(studentId, classId, true), ClassMemberModel.addClassMember(classId, studentId)]);
+          ctx.body = result[0] && result[1].id;
+        }
       } else {
         const result = await ApplyModel.updateApplyPass(studentId, classId, false);
         ctx.body = !!result[0];
