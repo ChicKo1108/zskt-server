@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { User } = require("../schemas/index");
 class UserModel {
   /**
@@ -26,6 +27,10 @@ class UserModel {
         id: id,
       },
     });
+  }
+
+  static async findUserByIds (ids) {
+    return await User.findAll({ where: { id: { [Op.in]: ids } } });
   }
 
   /**

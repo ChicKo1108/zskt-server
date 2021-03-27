@@ -1,14 +1,20 @@
 const { PunchResult } = require("../schemas/index");
 
 class PunchResultModel {
-  static async add (punchId) {
-    return await PunchResult.create({ punchId, read: false });
+  static async add(punchId, studentId) {
+    return await PunchResult.create({ punchId, studentId, isLeave: false });
   }
 
-  static async doRead (id) {
-    return await PunchResult.update({ read: true }, {
-      where: { punchId: id }
-    })
+  static async addLeave (punchId, studentId) {
+    return await PunchResult.create({ punchId, studentId, isLeave: true });
+  }
+
+  static async findByStudentIdAndPunchId(studentId, punchId) {
+    return await PunchResult.findOne({ where: { studentId, punchId } });
+  }
+
+  static async findByPunchId(punchId) {
+    return await PunchResult.findAll({ where: { punchId } });
   }
 
 }

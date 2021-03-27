@@ -141,6 +141,14 @@ class UserController {
       }
     }
   }
+
+  static async findUserById (ctx) {
+    const { id } = ctx.request.query;
+    commonUtils.checkArguments(ctx, id);
+    const userVo = await UserModel.findUserById(id);
+    ctx.response.status = 200;
+    ctx.body = userVo;
+  }
 }
 
 module.exports = UserController;

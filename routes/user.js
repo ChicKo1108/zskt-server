@@ -10,5 +10,6 @@ router.post("/updateUserInfo", UserController.updateUserInfo);
 router.get("/getMyUserInfo", UserController.findMyUserInfo);
 router.post("/checkPassword", UserController.checkPassword);
 router.post("/updatePassword", UserController.updatePassword);
+router.get("/findUserById", UserController.findUserById);
 
 module.exports = router;

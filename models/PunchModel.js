@@ -16,6 +16,10 @@ class PunchModel {
     });
   }
 
+  static async findById (id) {
+    return await Punch.findOne({ where: { id } });
+  }
+
   // 提前停止打卡
   static async stopPunch(id) {
     return await Punch.update(
@@ -62,6 +66,13 @@ class PunchModel {
     return await Punch.destroy({
       where: { id }
     })
+  }
+
+  static async getPunchListByClassIds (classIds) {
+    return await Punch.findAll({
+      where: { ClassId: { [Op.in]: classIds } },
+      order: [['startTime', 'DESC']],
+     });
   }
 }
 

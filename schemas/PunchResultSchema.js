@@ -10,7 +10,11 @@ module.exports = (sequelize, DataTypes) =>
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    read: {
+    studentId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    isLeave: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       default: false,
