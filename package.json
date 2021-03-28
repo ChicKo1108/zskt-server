@@ -23,7 +23,8 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "pug": "^2.0.3",
-    "sequelize": "^5.22.3"
+    "sequelize": "^5.22.3",
+    "socket.io": "^4.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

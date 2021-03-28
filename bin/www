@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('demo:server');
 var http = require('http');
+var ws = require('../socket/index');
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +21,27 @@ var port = normalizePort(process.env.PORT || '3000');
  */
 
 var server = http.createServer(app.callback());
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "http://localhost:8080",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
+
+/**
+ * socket.io
+ */
+io.on("connection", (socket) => {
+  console.log(
+    "用户Id：" + socket.id + "初始化成功！下面可以用socket绑定事件和触发事件了"
+  );
+  ws.socketInit(io, socket);
+  
+  socket.on("disconnect", (data) => {
+    console.log("断开", data);
+  });
+});
 
 /**
  * Listen on provided port, on all network interfaces.
